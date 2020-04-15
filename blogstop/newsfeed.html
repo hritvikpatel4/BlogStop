@@ -54,7 +54,19 @@
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
+                    
+
+                    var div = document.getElementById("feed")  
+                    div.remove()
+                    
+                    var parent = document.getElementById("parent")
+                    var newdiv = document.createElement("div")
+                    newdiv.setAttribute("id", "feed")
+                    newdiv.setAttribute("style", "margin-left: 10px;")
+                    parent.appendChild(newdiv)
                     myFunction(this);
+                    setInterval(displayPosts, 5000)
+                    
                 }
             };
             xhttp.open("GET", "feed.xml", true);
@@ -82,6 +94,8 @@
                     for(j = 0; j<cmts.length;j++) {
                         comments += cmts[j].childNodes[0].nodeValue +  "<br>"
                     }
+
+                    
                     var paragraph = document.createElement("p")
                     paragraph.setAttribute("id","p_"+index)
                     document.getElementById("feed").appendChild(paragraph);  
@@ -93,7 +107,7 @@
                     likesBtn.setAttribute("onclick", "foo(this.id)")
                     likesBtn.setAttribute("class","btn btn-primary")
                     document.getElementById("feed").appendChild(likesBtn); 
-                    console.log("outside: ", index)
+                    // console.log("outside: ", index)
                     document.getElementById("likesBtn_"+index).innerHTML = "Likes:"+x[i].getElementsByTagName("likes")[0].childNodes[0].nodeValue
                     
                     
@@ -190,7 +204,10 @@
         function logout()
         {
             window.location = "index.html";
-            
+        }
+
+        function start() {
+            displayPosts();
         }
 
         </script>
@@ -261,7 +278,7 @@
           </div>
         </nav>
       </header>
-    <body onload = "displayPosts()" id="body">
+    <body onload = "start()" id="body">
         <div class="padding">
         
         &nbsp; 
@@ -305,6 +322,8 @@
         <button class="btn btn-primary" id = "logoutBtn" onclick = "logout()">Logout <i class="fa fa-sign-out"></i></button> <br><br>
         </div> -->
         <center><h1> Your Feed</h1></center><br>
-        <div id="feed" style="margin-left: 10px;"></div> 
+        <div id="parent">
+          <div id="feed" style="margin-left: 10px;"></div> 
+        </div>
     </body>
 </html>
