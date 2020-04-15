@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" ng-app =  "blogstopapp">
+    <head>
+        <meta charset="utf-8" />
+        <title>BlogStop</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="BLOGSTOP: Blogs for Writers" />
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-cookies.js"></script>
+        <script>
+            var time;
+            function load() {
+                time = setTimeout(contentShow, 3350);
+            }
+            function contentShow() {
+                document.getElementById("maincontent").style.display = "block";
+                document.getElementById("logo").style.display = "none";
+            }
+            function showSignup() {
+                window.location.href = "register.html"
+            }
+        </script>
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="index.css">
+    </head>
+
+    <body onload="load()" ng-controller="blogstopController as ctrl">
+        <script type="text/javascript">
+            angular.module("blogstopapp",['ngCookies'])
+            .controller("blogstopController",['$http', '$cookies', function($http, $cookies)
+                                        {
+                                            self = this;
+                                            $cookies.remove('username');
+                                            self.sendForm = function()
+                                            {
+                                                
+                                                $http.post("http://localhost:5000/login", self.details).then(function(response)
+                                                    {
+                                                       
+                                                        console.log(response.data);   
+                                                        var res = response.data;
+                                                        if(res['returned'] == 1) {
+                                                            $cookies.put('username', self.details.username);
+                                                            var favoriteCookie = $cookies.get('username');
+                                                            console.log(favoriteCookie);
+                                                            window.location = "newsfeed.html"
+                                                        }
+                                                        else {
+                                                            alert("Invalid username or password")
+
+                                                        }
+
+                                                    }, function(error)
+                                                    {
+                                                        alert(error);
+                                                    });
+                                                    
+                                            }
+                                        }]);
+    
+        </script>
+        <div id="logo">BLOGSTOP</div>
+        
+        <div style="display: none;" id="maincontent">
+            <div class="entwineStyle">
+                <span class="nameStyle">BLOGSTOP</span>
+            </div>
+            <hr/>
+            <br/>
+            <div id="#loginform">
+                <div class="stylify">
+                    <form id="user_login" ng-submit="ctrl.sendForm()">
+                        <input class="input_boxes" name="user" type="text" placeholder="Username" ng-model="ctrl.details.username"/>
+                        <br/><br/>
+                        <input class="input_boxes" name="pass" type="password" placeholder="Password" ng-model="ctrl.details.password"/>
+                        <br/><br/>
+                        <button id="s_login_but" type="submit">Login</button>
+                        <br/><br/><br/>
+                        <button id="s_logsign_but" type="button" onclick="showSignup()">Not a member? Signup</button>
+                    </form>
+                </div>
+            </div>
+            <div id="#registerform">
+                
+            </div>
+        </div>
+    </body>
+</html>

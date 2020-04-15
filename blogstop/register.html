@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="blogstopapp">
+    <head>
+        <meta charset="utf-8" />
+        <title>BlogStop</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="BLOGSTOP: Blogs for Writers" />
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-cookies.js"></script>
+        <script>
+            function showSignin() {
+                window.location.href = "index.html"
+            }
+        </script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="register.css">
+    </head>
+
+    <body ng-controller="blogstopController as ctrl">
+        <script type="text/javascript">
+            angular.module("blogstopapp",[])
+            .controller("blogstopController",['$http', function($http)
+            {
+                self = this;
+                self.sendForm = function()
+                {
+                    $http.post("http://localhost:5000/register", self.details).then(function(response)
+                    {
+                        console.log(response.data);     
+                        var res = response.data;
+
+                        if(res['returned'] == 0) {
+                            alert("User already exists try again")
+                        }
+                        else {
+                            alert("Registered successfully, Please login again")
+                            window.location = "index.html"
+                        }
+                    }, function(error)
+                    {
+                        alert(error);
+                    });
+                }
+            }]);
+        </script>
+        <div id="maincontent">
+            <div class="entwineStyle">
+                <span class="nameStyle">BLOGSTOP</span>
+            </div>
+            <hr/>
+            <br/>
+            <div class="stylify">
+                <form id="user_signup" ng-submit="ctrl.sendForm()">
+                    <label id="registerformlabel">Register</label><br/><br/>
+                    <input class="input_boxes" type="text" name="user" placeholder="Username" ng-model="ctrl.details.username"/>
+                    <br/><br/>
+                    <input class="input_boxes" type="email" name="email" placeholder="Email" ng-model="ctrl.details.email"/>
+                    <br/><br/>
+                    <input class="input_boxes" type="password" name="pass" placeholder="Password" ng-model="ctrl.details.password"/>
+                    <br/><br/>
+                    <button id="s_signup_but" type="submit">Sign up</button>
+                    <br/><br/><br/>
+                    <button id="s_logsign_but" type="button" onclick="showSignin()">Already a member? Login</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,87 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #000;
+	display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.nameStyle {
+	color: red;
+	font-family: Helvetica;
+	font-size: 150%;
+}
+
+hr {
+	border-color: gray;
+}
+
+.entwineStyle {
+	display: inline-block;
+}
+
+#registerformlabel {
+	color: white;
+	font-size: 18px;
+}
+
+.input_boxes {
+	width: 120%;
+	padding: 10px;
+	background-color: lightgray;
+	color: black;
+	font-size: 100%;
+}
+
+#s_signup_but:hover{
+    width: 12.5%;
+	padding: 8px;
+	position: absolute;
+	background-color: grey;
+	color: white;
+	border: none;
+	font-size: 110%;
+	border-radius: 4px;
+	align-items: center;
+	cursor: pointer;
+}
+
+#s_signup_but {
+    width: 12.5%;
+	padding: 8px;
+	position: absolute;
+	background-color: transparent;
+	color: white;
+	border: none;
+	font-size: 110%;
+	border-radius: 4px;
+	align-items: center;
+}
+
+#s_logsign_but:hover{
+	width: 12.5%;
+	padding: 4px;
+	position: absolute;
+	background-color: transparent;
+	color: aqua;
+	border: none;
+	font-size: 100%;
+	border-radius: 4px;
+	align-items: center;
+	outline: none;
+	cursor: pointer;
+}
+
+#s_logsign_but {
+	width: 12.5%;
+	padding: 4px;
+	position: absolute;
+	background-color: transparent;
+	color: aqua;
+	border: none;
+	font-size: 100%;
+	border-radius: 4px;
+	outline: none;
+	align-items: center;
+}

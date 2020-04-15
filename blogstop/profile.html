@@ -1,0 +1,256 @@
+<html>
+    <head>
+        <title>Profile</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300, 400,700|Inconsolata:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="fonts/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+    
+    </head>
+    <script type="text/javascript">
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+ d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        var usr = ""
+        var postids = ""
+
+        
+
+        function getuname() {
+            var uname = getCookie("user")
+            console.log(uname)    
+
+            var xhr1 = new XMLHttpRequest()
+            xhr1.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    var j = JSON.parse(this.responseText);
+                    
+                    if(j.returned == 0) {
+                        alert("User doesn't exist")
+                        window.location = "newsfeed.html"
+                    }                    
+                }
+            }
+            xhr1.open("GET", "http://localhost:5000/check?username="+uname, true);
+            xhr1.send();
+
+            var xhttp = new XMLHttpRequest()
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = xhttp.responseText
+                    var output = JSON.parse(resp)
+                    
+                    document.getElementById("uname").innerHTML = "Username: "+output.username
+                    usr = output.username
+                    document.getElementById("email").innerHTML = "email id: "+output.email
+                    document.getElementById("posts").innerHTML = "Number of posts: "+output.num
+                    document.getElementById("post_ids").innerHTML = "Total likes: "+output.likes
+                    postids = output.posts
+                    
+                    displayPosts()
+                }
+                
+            }
+            
+            xhttp.open("GET", "http://localhost:5000/profile?username="+uname, true)
+            xhttp.send();
+
+        }
+
+        function displayPosts() {
+            console.log(usr, postids)
+        
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    myFunction(this);
+                }
+            };
+            xhttp.open("GET", "feed.xml", true);
+            xhttp.send();
+        }
+
+        function myFunction(xml) {
+            var i; var j;
+            var xmlDoc = xml.responseXML;
+            var x = xmlDoc.getElementsByTagName("post");
+
+            var p = postids.split(";")
+            var printstr = ""
+
+
+            for (i = 0; i <x.length; i++) { 
+                if(p.includes(x[i].id)){
+                    printstr += "<h4>"+x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue+"</h4>"
+                    + x[i].getElementsByTagName("content")[0].childNodes[0].nodeValue + "<br>"
+                    + "<br><b>"+x[i].getElementsByTagName("likes")[0].childNodes[0].nodeValue + "   likes</b><br>"
+                    
+                    var cmts = x[i].getElementsByTagName("comments")
+                    var comments = ""
+                    for(j = 0; j<cmts.length;j++) {
+                        comments += cmts[j].childNodes[0].nodeValue +  "<br>"
+                    }
+                    
+                    printstr += "<br><b><i> Comments for this post: </i></b><br>"+comments + "<hr>"
+                    console.log(cmts);
+                    
+                }
+                
+            }
+            document.getElementById("toprint").innerHTML = printstr;
+        }
+
+        function logout() {
+                window.location = "index.html";
+        }
+
+        function graphs(){
+            var xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var xml = this.responseXML
+                    var uname = getCookie("user")
+                    console.log("in ml:",uname)    
+                    var printstr = ""
+                    
+                    var x = xml.getElementsByTagName("post");
+
+                    for (i = 0; i <x.length; i++) { 
+                        if(x[i].getElementsByTagName("user")[0].childNodes[0].nodeValue == uname){
+                            
+                            var cmts = x[i].getElementsByTagName("comments")
+                            var comments = ""
+                            for(j = 0; j<cmts.length;j++) {
+                                comments += cmts[j].childNodes[0].nodeValue +  ";;"
+                            }
+                            
+                            printstr += comments
+                            
+                        }                                
+                    }
+
+                    var newxhr = new XMLHttpRequest()
+                    newxhr.onreadystatechange = function() {
+                        if(this.readyState == 4 && this.status == 200) {
+                            alert("Moving to plots")
+                            window.location = "plots.html";
+                        }
+                    }
+                    console.log("just before sending:", printstr);
+                    newxhr.open("GET", "http://localhost:5000/posneg?username="+uname+"&text="+printstr, true)
+                    newxhr.send();
+
+                }
+            };  
+            xhr.open("GET", "feed.xml", true);
+            xhr.send();
+            
+        }
+    </script>
+    <div class="wrap">
+        <header role="banner">
+        <div class="top-bar">
+          <div class="container">
+            <div class="row">
+              <div class="col-9 social">
+                <a href="#"><span class="fa fa-twitter"></span></a>
+                <a href="#"><span class="fa fa-facebook"></span></a>
+                <a href="#"><span class="fa fa-instagram"></span></a>
+                <a href="#"><span class="fa fa-youtube-play"></span></a>
+              </div>
+              
+                </form>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="container logo-wrap">
+          <div class="row pt-5">
+            <div class="col-12 text-center">
+              <a class="absolute-toggle d-block d-md-none" data-toggle="collapse" href="#navbarMenu" role="button" aria-expanded="false" aria-controls="navbarMenu"><span class="burger-lines"></span></a>
+              <h1 class="site-logo"><a href="#">BLOGSTOP</a></h1>
+            </div>
+          </div>
+        </div>
+        
+        <nav class="navbar navbar-expand-md  navbar-light bg-light">
+          <div class="container">
+            
+           
+            <div class="collapse navbar-collapse" id="navbarMenu">
+              <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="newsfeed.html">Newsfeed</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="profile.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick = "graphs()">Blog analytics</a>
+                </li>
+              </ul>
+              
+            </div>
+          </div>
+        </nav>
+      </header>
+      
+    <body onload="getuname()">
+        <div id="disp">
+            <table style="font-size: 20px;">
+                <tr><td style="color: white;">_</td></tr>
+                <tr>
+                    <td><div id = "uname" style="margin-left:20px;"></div></td>
+                    <td style="width: 54%;"></td>
+                    <td><div id = "email"></div></td>
+                </tr>
+                <tr><td style="color: white;">__________________________</td></tr>
+                <tr>
+                    <td><div id = "posts" style="margin-left:20px;"></div></td>
+                    <td style="width: 54%;"></td>
+                    <td><div id = "post_ids"></div></td>
+                </tr>
+
+            </table>
+            
+            
+        </div>
+        <center><h3>POSTS</h3></center>
+        <hr>
+        <div id="myposts">
+            <p id="toprint" style="margin-left:10px;">
+            </p>     
+        </div>
+    </body>
+</html>
