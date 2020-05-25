@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <title>Post</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/bootstrap.css">
+      <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300, 400,700|Inconsolata:400,700" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="css/animate.css">
+      <link rel="stylesheet" href="css/owl.carousel.min.css">
+      <link rel="stylesheet" href="fonts/ionicons/css/ionicons.min.css">
+      <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
+      <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+      <script type="text/javascript">   
+         var post_id;
+         
+         function getCookie(cname) {
+             var name = cname + "=";
+             var decodedCookie = decodeURIComponent(document.cookie);
+             var ca = decodedCookie.split(';');
+             for(var i = 0; i <ca.length; i++) {
+                 var c = ca[i];
+                 while (c.charAt(0) == ' ') {
+                 c = c.substring(1);
+                 }
+                 if (c.indexOf(name) == 0) {
+                 return c.substring(name.length, c.length);
+                 }
+             }
+             return "";
+         }
+         
+         var newxhr = new XMLHttpRequest();
+             newxhr.onreadystatechange = function() {
+                 if (this.readyState == 4 && this.status == 200) {
+                     var xmlDoc = this.responseXML;
+                     var x = xmlDoc.getElementsByTagName("post");
+                     post_id = x.length+1
+                     console.log("a: ", post_id)
+                 }
+             };
+             newxhr.open("GET", "feed.xml", true);
+             newxhr.send();
+         
+         function appendToXml() {
+            
+             var xhttp = new XMLHttpRequest();
+             xhttp.onreadystatechange = function() {
+                 if (this.readyState == 4 && this.status == 200) {
+                     var resp = xhttp.responseText
+                     document.getElementById("disp").innerHTML = resp
+                 }
+             }
+             
+             xhttp.open("POST", "addToXml.php", true)
+             xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+         
+             var content = document.getElementById("post_text").value
+             var title = document.getElementById("title_text").value
+             var tags="";
+         
+             
+             var coffee = document.forms[0];
+             
+             var i;
+             for (i = 0; i < coffee.length; i++) {
+                 if (coffee[i].checked) {
+                 tags = tags + coffee[i].value + ";";
+                 }
+             }
+             
+             tags = tags.substring(0, tags.length - 1);
+             if(tags==""){
+                 tags = document.getElementById("disp").innerHTML.split(":")[1]
+             }
+             console.log("tags:",tags);
+             console.log("b: ", post_id)
+             console.log("id="+post_id+"&content="+ content+"&title="+title+"&tags="+tags)
+             xhttp.send("id="+post_id+"&content="+ content+"&title="+title+"&tags="+tags)
+         
+             var today = new Date();
+             var dd = String(today.getDate()).padStart(2, '0');
+             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+             var yyyy = today.getFullYear();
+             today = dd + '/' + mm + '/' + yyyy;
+         
+             var xhr = new XMLHttpRequest();
+             xhr.onreadystatechange = function() {
+                 if (this.readyState == 4 && this.status == 200) {
+                     alert("successfully posted!")
+                     window.location = "createPage.html"
+                 }
+             };
+             xhr.open("GET", "http://localhost:5000/blogstop/update?username="+getCookie("username")+"&postid="+post_id+"&date="+today, true);
+             xhr.send();
+         
+         } 
+         
+         function recommend()
+         {
+             var content = document.getElementById("post_text").value
+             var xhr = new XMLHttpRequest();
+             xhr.onreadystatechange = function() {
+                 if (this.readyState == 4 && this.status == 200) {
+                     var resp = xhr.responseText;
+                     var output = JSON.parse(resp);
+                     
+                     document.getElementById("disp").innerHTML = "<br>Recommended tags :  "+output.content;
+                 }
+             };
+             xhr.open("GET", "http://localhost:5000/blogstop/recommendtags?content="+content, true);
+             xhr.send();
+         }
+      </script>
+   </head>
+   <div class="wrap">
+   <header role="banner">
+      <div class="top-bar">
+         <div class="container">
+            <div class="row">
+               <div class="col-9 social">
+                  <a href="#"><span class="fa fa-twitter"></span></a>
+                  <a href="#"><span class="fa fa-facebook"></span></a>
+                  <a href="#"><span class="fa fa-instagram"></span></a>
+                  <a href="#"><span class="fa fa-youtube-play"></span></a>
+               </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <div class="container logo-wrap">
+         <div class="row pt-5">
+            <div class="col-12 text-center">
+               <a class="absolute-toggle d-block d-md-none" data-toggle="collapse" href="#navbarMenu" role="button" aria-expanded="false" aria-controls="navbarMenu"><span class="burger-lines"></span></a>
+               <h1 class="site-logo"><a href="#">BLOGSTOP</a></h1>
+            </div>
+         </div>
+      </div>
+      <nav class="navbar navbar-expand-md  navbar-light bg-light">
+         <div class="container">
+            <div class="collapse navbar-collapse" id="navbarMenu">
+               <ul class="navbar-nav mx-auto">
+                  <li class="nav-item">
+                     <a class="nav-link" href="newsfeed.html">Newsfeed</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link active" href="createPage.html">Post</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="index.html">Logout</a>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </nav>
+   </header>
+   <body>
+      <section class="site-section">
+         <div class="container">
+         <div class="row mb-4">
+            <div class="col-md-6">
+               <h1>Create new post</h1>
+            </div>
+         </div>
+         <div class="row blog-entries">
+         <div class="col-md-12 col-lg-8 main-content">
+         <div class="row">
+         <div class="col-md-12 form-group">
+            <label for="blog">Write your post <i class="fa fa-pencil-square-o bigicon"></i></label> <br>
+            <textarea placeholder="Enter the title here" id="title_text" rows="1" cols="70"></textarea>
+         </div>
+         <br>
+         <div class="col-md-12 form-group">
+            <textarea placeholder="Type your post here" id="post_text" rows="10" cols="70"></textarea>
+         </div>
+         <form class="form-horizontal">
+            <div class="row">
+               <div class="col-md-4">
+                  <input type="checkbox" id="travel" value="Travel">
+                  <label for="travel">Travel <i class="fa fa-globe"></i></label>
+               </div>
+               <div class="col-md-4">
+                  <input type="checkbox" id="fitness" value="Fitness">
+                  <label for="fitness">Fitness <i class="fa fa-bicycle"></i></label>
+               </div>
+               <div class="col-md-4">
+                  <input type="checkbox" id="sports" value="Sports">
+                  <label for="sports">Sports <i class="fa fa-futbol-o"></i></label>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-4">
+                  <input type="checkbox" id="political" value="political">
+                  <label for="political">Political <i class="fa fa-group"></i></label>
+               </div>
+               <div class="col-md-4">
+                  <input type="checkbox" id="finance" value="finance">
+                  <label for="finance">Finance <i class="fa fa-line-chart"></i></label>
+               </div>
+               <div class="col-md-4">
+                  <input type="checkbox" id="food" value="food">
+                  <label for="food">Food <i class="fa fa-cutlery"></i></label>
+               </div>
+               <div class="col-md-4">
+                  <input type="checkbox" id="fashion" value="fashion">
+                  <label for="fashion">Fashion <i class="fa fa-shopping-bag"></i></label><br>
+               </div>
+            </div>
+         </form>
+         &nbsp; &nbsp;
+         <div class="row">
+            <div class="col-md-4">
+               <button id = "tagBtn" class="btn btn-primary" onclick="recommend()">Recommend tags <i class="fa fa-reorder"></i></button>
+            </div>
+            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; 
+            <div class="col-md-4">
+               <button id="postBtn" class="btn btn-primary" onclick="appendToXml()">Post <i class="fa fa-plus-square"></i></button>
+            </div>
+            <div id="disp">
+            </div>
+            &nbsp;&nbsp;
+            <br><br>
+            <div class="col-md-4">
+               
+            </div>
+         </div>
+      </section>
+   </body>
+</html>
