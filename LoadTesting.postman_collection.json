@@ -454,66 +454,6 @@
 			"response": []
 		},
 		{
-			"name": "recommend_tags_1",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:5000/blogstop/recommendtags?content=Football is a family of team sports that involve, to varying degrees, kicking a ball to score a goal. Unqualified, the word football normally means the form of football that is the most popular where the word is used. Sports commonly called football include association football (known as soccer in some countries); gridiron football (specifically American football or Canadian football); Australian rules football; rugby football (either rugby league or rugby union); and Gaelic football. These various forms of football are known as football codes. There are a number of references to traditional, ancient, or prehistoric ball games played in many different parts of the world. Contemporary codes of football can be traced back to the codification of these games at English public schools during the 19th century. The expansion of the British Empire allowed these rules of football to spread to areas of British influence outside the directly controlled Empire. By the end of the 19th century, distinct regional codes were already developing: Gaelic football, for example, deliberately incorporated the rules of local traditional football games in order to maintain their heritage. In 1888, The Football League was founded in England, becoming the first of many professional football competitions. During the 20th century, several of the various kinds of football grew to become some of the most popular team sports in the world.",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "5000",
-					"path": [
-						"blogstop",
-						"recommendtags"
-					],
-					"query": [
-						{
-							"key": "content",
-							"value": "Football is a family of team sports that involve, to varying degrees, kicking a ball to score a goal. Unqualified, the word football normally means the form of football that is the most popular where the word is used. Sports commonly called football include association football (known as soccer in some countries); gridiron football (specifically American football or Canadian football); Australian rules football; rugby football (either rugby league or rugby union); and Gaelic football. These various forms of football are known as football codes. There are a number of references to traditional, ancient, or prehistoric ball games played in many different parts of the world. Contemporary codes of football can be traced back to the codification of these games at English public schools during the 19th century. The expansion of the British Empire allowed these rules of football to spread to areas of British influence outside the directly controlled Empire. By the end of the 19th century, distinct regional codes were already developing: Gaelic football, for example, deliberately incorporated the rules of local traditional football games in order to maintain their heritage. In 1888, The Football League was founded in England, becoming the first of many professional football competitions. During the 20th century, several of the various kinds of football grew to become some of the most popular team sports in the world."
-						}
-					]
-				},
-				"description": "Get result for recommended tags based on content sent"
-			},
-			"response": []
-		},
-		{
-			"name": "recommend_tags_2",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:5000/blogstop/recommendtags?content=Food is any substance consumed to provide nutritional support for an organism. Food is usually of plant or animal origin, and contains essential nutrients, such as carbohydrates, fats, proteins, vitamins, or minerals. The substance is ingested by an organism and assimilated by the organism's cells to provide energy, maintain life, or stimulate growth. Historically, humans secured food through two methods: hunting and gathering and agriculture, which gave modern humans a mainly omnivorous diet. Worldwide, humanity has created numerous cuisines and culinary arts, including a wide array of ingredients, herbs, spices, techniques, and dishes. Today, the majority of the food energy required by the ever-increasing population of the world is supplied by the food industry. Food safety and food security are monitored by agencies like the International Association for Food Protection, World Resources Institute, World Food Programme, Food and Agriculture Organization, and International Food Information Council. They address issues such as sustainability, biological diversity, climate change, nutritional economics, population growth, water supply, and access to food.",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "5000",
-					"path": [
-						"blogstop",
-						"recommendtags"
-					],
-					"query": [
-						{
-							"key": "content",
-							"value": "Food is any substance consumed to provide nutritional support for an organism. Food is usually of plant or animal origin, and contains essential nutrients, such as carbohydrates, fats, proteins, vitamins, or minerals. The substance is ingested by an organism and assimilated by the organism's cells to provide energy, maintain life, or stimulate growth. Historically, humans secured food through two methods: hunting and gathering and agriculture, which gave modern humans a mainly omnivorous diet. Worldwide, humanity has created numerous cuisines and culinary arts, including a wide array of ingredients, herbs, spices, techniques, and dishes. Today, the majority of the food energy required by the ever-increasing population of the world is supplied by the food industry. Food safety and food security are monitored by agencies like the International Association for Food Protection, World Resources Institute, World Food Programme, Food and Agriculture Organization, and International Food Information Council. They address issues such as sustainability, biological diversity, climate change, nutritional economics, population growth, water supply, and access to food."
-						}
-					]
-				},
-				"description": "Get result for recommended tags based on content sent"
-			},
-			"response": []
-		},
-		{
 			"name": "get_profile_user1",
 			"request": {
 				"method": "GET",
@@ -742,72 +682,6 @@
 					]
 				},
 				"description": "Get user details"
-			},
-			"response": []
-		},
-		{
-			"name": "posneg_user2",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:5000/posneg?username=tester2&text=Amazing Blog. I Loved the content;;Nice use of words;;Good job;;Mediocre;;I'm impressed by your content;;Didn't like this post;;Kill yourself;;",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "5000",
-					"path": [
-						"posneg"
-					],
-					"query": [
-						{
-							"key": "username",
-							"value": "tester2"
-						},
-						{
-							"key": "text",
-							"value": "Amazing Blog. I Loved the content;;Nice use of words;;Good job;;Mediocre;;I'm impressed by your content;;Didn't like this post;;Kill yourself;;"
-						}
-					]
-				},
-				"description": "Get emotion from comments"
-			},
-			"response": []
-		},
-		{
-			"name": "posneg_user4",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:5000/posneg?username=tester4&text=I hate it. Worst blogger ever!;;Why do you even blog;;Need to leave your blog;;Love it;;Nice stuff;;Intimidating;;",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "5000",
-					"path": [
-						"posneg"
-					],
-					"query": [
-						{
-							"key": "username",
-							"value": "tester4"
-						},
-						{
-							"key": "text",
-							"value": "I hate it. Worst blogger ever!;;Why do you even blog;;Need to leave your blog;;Love it;;Nice stuff;;Intimidating;;"
-						}
-					]
-				},
-				"description": "Get emotion from comments"
 			},
 			"response": []
 		}
