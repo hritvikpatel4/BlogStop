@@ -65,7 +65,7 @@
                     newdiv.setAttribute("style", "margin-left: 10px;")
                     parent.appendChild(newdiv)
                     myFunction(this);
-                    setInterval(displayPosts, 5000)
+                    
                     
                 }
             };
@@ -249,10 +249,10 @@
             <div class="collapse navbar-collapse" id="navbarMenu">
               <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                  <a class="nav-link active" href="newsfeed.html">Newsfeed</a>
+                  <a class="nav-link active" id="same_news" href="newsfeed.html">Newsfeed</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" onclick="something()" href="#">Profile</a>
+                  <a class="nav-link" onclick="something()" id="id_profile" href="#">Profile</a>
                 </li>
                 <!--
                 <li class="nav-item dropdown">
@@ -301,7 +301,7 @@
                         
                     </td>
                     <td>
-                        <button class="btn btn-default" style="margin-left: 10;"><a href="createPage.html">New Post <i class="fa fa-pencil-square-o bigicon"></i></a> </button>
+                        <button class="btn btn-default" style="margin-left: 10;"><a href="createPage.html" id="id_newpost">New Post <i class="fa fa-pencil-square-o bigicon"></i></a> </button>
                     </td>
                     
             </tr>
